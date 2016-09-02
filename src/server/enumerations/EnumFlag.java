@@ -6,10 +6,13 @@ import arquitetura.common.util.IClasseRevisao;
 
 public enum EnumFlag implements IEnumEntidade<Flag>, IClasseRevisao {
 
-	PRODUTO_IDFLAGSTATUS_ATIVO(new Flag(1L, "Ativo", "Produto", "IDFlagStatus")), PRODUTO_IDFLAGSTATUS_BAIXADO(
-			new Flag(2L, "Baixado", "Produto", "IDFlagStatus")),
+	PRODUTO_IDFLAGSTATUS_ATIVO(new Flag(1L, "Ativo", "Produto", "IDFlagStatus")), 
+	PRODUTO_IDFLAGSTATUS_BAIXADO(new Flag(2L, "Baixado", "Produto", "IDFlagStatus")),
 
-	;
+    PESSOA_IDFLAGSTATUS_ATIVO(new Flag(3L, "Ativo", "Pessoa", "IDFlagStatus")),
+    PESSOA_IDFLAGSTATUS_INATIVO(new Flag(4L, "Inativo", "Pessoa", "IDFlagStatus")),
+
+    ;
 
 	private Flag flag;
 

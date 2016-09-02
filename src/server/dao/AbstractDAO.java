@@ -74,6 +74,10 @@ public abstract class AbstractDAO<E extends IEntity> {
             em.getTransaction().begin();
 
             entity = em.merge(entity);
+            
+            em.flush();
+            
+            em.refresh(entity);            
 
             em.getTransaction().commit();
 
@@ -93,6 +97,10 @@ public abstract class AbstractDAO<E extends IEntity> {
             em.getTransaction().begin();
 
             em.persist(entity);
+            
+            em.flush();
+            
+            em.refresh(entity);
 
             em.getTransaction().commit();
 
@@ -182,5 +190,8 @@ public abstract class AbstractDAO<E extends IEntity> {
         return entityManagerProvider;
     }
 
+    public void flush() {
+        getEntityManager().flush();
+    }    
 
 }

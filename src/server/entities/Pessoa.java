@@ -3,18 +3,22 @@ package server.entities;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import server.entities.abstracts.AbstractEntity;
 import arquitetura.common.exception.EJDLogicException;
+import server.entities.abstracts.AbstractEntity;
 
 @Entity
 @Table(name = "pessoa")
-public abstract class Pessoa extends AbstractEntity implements Serializable {
+public class Pessoa extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -23,6 +27,22 @@ public abstract class Pessoa extends AbstractEntity implements Serializable {
     private Long idPessoa;
 
     private String fone;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status")
+    private Flag flagStatus;
+    
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idPessoaFisica")
+    private PessoaFisica pessoaFisica;
+    
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idPessoaJuridica")
+    private PessoaJuridica pessoaJuridica;
+    
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idTipoPessoa")
+    private TipoPessoa tipoPessoa;
 
     public Long getIdPessoa() {
         return idPessoa;
@@ -39,18 +59,44 @@ public abstract class Pessoa extends AbstractEntity implements Serializable {
     public void setFone(String fone) {
         this.fone = fone;
     }
-
-    public PessoaFisica getPessoaFisica() {
-        return isFisica() ? (PessoaFisica) this : null;
+    
+    public Flag getFlagStatus() {
+        return flagStatus;
+    }
+    
+    public void setFlagStatus(Flag flagStatus) {
+        this.flagStatus = flagStatus;
     }
 
-    public PessoaJuridica getPessoaJuridica() {
-        return isJuridica() ? (PessoaJuridica) this : null;
+    public void setPessoaFisica(PessoaFisica pessoaFisica) {
+        this.pessoaFisica = pessoaFisica;
     }
 
-    public abstract boolean isFisica();
+    public void setPessoaJuridica(PessoaJuridica pessoaJuridica) {
+        this.pessoaJuridica = pessoaJuridica;
+    }
+    
+    public TipoPessoa getTipoPessoa() {
+        return tipoPessoa;
+    }
+    
+    public void setTipoPessoa(TipoPessoa tipoPessoa) {
+        this.tipoPessoa = tipoPessoa;
+    }
 
-    public abstract boolean isJuridica();
+//    public PessoaFisica getPessoaFisica() {
+//        return isFisica() ? new PessoaFisica() : null;
+//    }
+//
+//    public PessoaJuridica getPessoaJuridica() {
+//        return isJuridica() ? new PessoaJuridica() : null;
+//    }
+
+//    public boolean isFisica() {
+    
+//    }
+//
+//    public boolean isJuridica();
 
 
     @Override
@@ -60,7 +106,7 @@ public abstract class Pessoa extends AbstractEntity implements Serializable {
 
     @Override
     public void validate() throws EJDLogicException {
-        // TODO Auto-generated method stub
+        
     }
 
 }

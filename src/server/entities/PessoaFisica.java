@@ -4,12 +4,22 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 import arquitetura.common.exception.EJDLogicException;
+import server.entities.abstracts.AbstractEntity;
 
 @Entity
-public class PessoaFisica extends Pessoa implements Serializable {
+public class PessoaFisica extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @SequenceGenerator(allocationSize = 1, name = "PESSOAFISICA_IDPESSOAFISICA", sequenceName = "IDPESSOAFISICA")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "PESSOAFISICA_IDPESSOAFISICA")
+    private Long idPessoaFisica;
 
     private String nome;
 
@@ -24,6 +34,17 @@ public class PessoaFisica extends Pessoa implements Serializable {
     private String rgOrgaoEmissor;
 
     private Date rgEmissao;
+    
+//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "pessoaFisica")
+//    private Pessoa pessoa;
+//    
+    public Long getIdPessoaFisica() {
+        return idPessoaFisica;
+    }
+
+    public void setIdPessoaFisica(Long idPessoaFisica) {
+        this.idPessoaFisica = idPessoaFisica;
+    }
 
     public String getNome() {
         return nome;
@@ -80,18 +101,29 @@ public class PessoaFisica extends Pessoa implements Serializable {
     public void setRgEmissao(Date rgEmissao) {
         this.rgEmissao = rgEmissao;
     }
+    
+//    public Pessoa getPessoa() {
+//        return pessoa;
+//    }
+//    
+//    public void setPessoa(Pessoa pessoa) {
+//        this.pessoa = pessoa;
+//    }
 
     public void validate() throws EJDLogicException {
         // TODO Auto-generated method stub
     }
 
-    @Override
     public boolean isFisica() {
         return true;
     }
 
-    @Override
     public boolean isJuridica() {
         return false;
+    }
+
+    @Override
+    public Long getId() {
+        return getIdPessoaFisica();
     }
 }

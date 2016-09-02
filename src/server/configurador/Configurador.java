@@ -10,10 +10,12 @@ import javax.inject.Inject;
 import server.dao.EstadoDAO;
 import server.dao.FlagDAO;
 import server.dao.MunicipioDAO;
+import server.dao.TipoPessoaDAO;
 import server.dao.UnidadeMedidaDAO;
 import server.entities.Flag;
 import server.enumerations.EnumEstado;
 import server.enumerations.EnumMunicipio;
+import server.enumerations.EnumTipoPessoa;
 import server.enumerations.EnumUnidadeMedida;
 import arquitetura.common.interfaces.IConfigurador;
 
@@ -37,6 +39,9 @@ public class Configurador implements IConfigurador {
 
     @Inject
     private UnidadeMedidaDAO unidadeMedidaDAO = new UnidadeMedidaDAO();
+    
+    @Inject
+    private TipoPessoaDAO tipoPessoaDAO = new TipoPessoaDAO();
 
 	@Override
 	public String getIdentificador() {
@@ -53,6 +58,8 @@ public class Configurador implements IConfigurador {
         this.configurarMunicipios();
         currentTimeStartMillis = logDuration("Municipios", currentTimeStartMillis);
         this.configurarUnidadeMedida();
+        currentTimeStartMillis = logDuration("UnidadeMedida", currentTimeStartMillis);
+        this.configurarTipoPessoa();
         currentTimeStartMillis = logDuration("UnidadeMedida", currentTimeStartMillis);
 
 	}
@@ -98,6 +105,13 @@ public class Configurador implements IConfigurador {
     private void configurarUnidadeMedida() throws Exception {
         for (EnumUnidadeMedida enumUnidadeMedida: EnumUnidadeMedida.values()) {
             unidadeMedidaDAO.editar(enumUnidadeMedida.getEntidade());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void configurarTipoPessoa() throws Exception {
+        for (EnumTipoPessoa enumTipoPessoa: EnumTipoPessoa.values()) {
+            tipoPessoaDAO.editar(enumTipoPessoa.getEntidade());
         }
     }
 
